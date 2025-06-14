@@ -1,0 +1,44 @@
+name: Build and Deploy Godot + React
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    container:
+      image: barichello/godot-ci:4.4.1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Prepare Godot export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/4.4.1.stable ~/.local/share/godot/export_templates/4.4.1.stable || true
+
+      - name: Export Godot project
+        run: |
+            mkdir -p web/public/godot_game
+            godot --headless --path godot --export-release "Web" ../web/public/godot_game/index_godot.html
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies for React
+        run: npm install
+        working-directory: ./web
+
+      - name: Build React app
+        run: npm run build
+        working-directory: ./web
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web/dist
