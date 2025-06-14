@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const JUMP_VELOCITY = -300.0
+const MAX_HEIGHT = 0.0
 
 func _physics_process(delta: float) -> void:
 	if Global.isStart: 
@@ -10,9 +11,12 @@ func _physics_process(delta: float) -> void:
 
 		# Handle jump.
 		if Input.is_action_just_pressed("ui_accept"):
-			$AudioStreamPlayer.play()
-			velocity.y = JUMP_VELOCITY
-			rotation = deg_to_rad(-30)
+			if position.y > MAX_HEIGHT:
+				$AudioStreamPlayer.play()
+				velocity.y = JUMP_VELOCITY
+				rotation = deg_to_rad(-30)
+			else:
+				velocity.y = 0
 
 	move_and_slide()
 	rotation_bird()
