@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://d3poqw5oykhu4"]
+
+[ext_resource type="Texture2D" uid="uid://bw3cikotxxbvc" path="res://sprites/yellowbird-downflap.png" id="1_hq4t0"]
+[ext_resource type="Script" uid="uid://b5yagovqkjbd5" path="res://scripts/bird.gd" id="1_twsrt"]
+[ext_resource type="Texture2D" uid="uid://beb33j61gpvof" path="res://sprites/yellowbird-midflap.png" id="2_twsrt"]
+[ext_resource type="Texture2D" uid="uid://gx36xlb3gbsp" path="res://sprites/yellowbird-upflap.png" id="3_b7mtg"]
+[ext_resource type="AudioStream" uid="uid://yad8vi8t81ga" path="res://audio/wing.wav" id="5_b7mtg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bdh3x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hq4t0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_twsrt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_b7mtg")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jggmu"]
+radius = 11.0454
+
+[node name="Bird" type="CharacterBody2D"]
+script = ExtResource("1_twsrt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bdh3x")
+animation = &"fly"
+autoplay = "fly"
+frame_progress = 0.665937
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1.2, 1.2)
+shape = SubResource("CircleShape2D_jggmu")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_b7mtg")

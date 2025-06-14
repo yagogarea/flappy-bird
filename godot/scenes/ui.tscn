@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://i033via2vo6b"]
+
+[ext_resource type="Texture2D" uid="uid://bdljqdq8b4ok0" path="res://sprites/message.png" id="1_nt7q6"]
+[ext_resource type="Script" uid="uid://dc10hyb42h47s" path="res://scripts/ui.gd" id="1_x4jx1"]
+[ext_resource type="FontFile" uid="uid://bnhuw3bmb5yui" path="res://font/flappy-font.ttf" id="2_gdt2y"]
+[ext_resource type="Texture2D" uid="uid://b4tyfxwgownwp" path="res://sprites/gameover.png" id="3_yev5y"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_x4jx1")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.306
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = 15.872
+offset_top = 8.0
+offset_right = 16.0
+offset_bottom = 7.8
+theme_override_fonts/font = ExtResource("2_gdt2y")
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Message" type="Sprite2D" parent="."]
+position = Vector2(136, 232)
+texture = ExtResource("1_nt7q6")
+
+[node name="Gameover" type="Sprite2D" parent="."]
+position = Vector2(136, 256)
+texture = ExtResource("3_yev5y")

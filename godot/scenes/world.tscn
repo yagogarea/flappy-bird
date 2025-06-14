@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://buuqfhp3267ew"]
+
+[ext_resource type="Script" uid="uid://bc75iqiqfo023" path="res://scripts/world.gd" id="1_71j4m"]
+[ext_resource type="Texture2D" uid="uid://brwxkwec7kn07" path="res://sprites/background-day.png" id="1_nnsk1"]
+[ext_resource type="PackedScene" uid="uid://cyxakwmrenw0d" path="res://scenes/pipes.tscn" id="2_i7141"]
+[ext_resource type="Texture2D" uid="uid://deld72axf4lye" path="res://sprites/base.png" id="2_rwgxs"]
+[ext_resource type="PackedScene" uid="uid://d3poqw5oykhu4" path="res://scenes/bird.tscn" id="3_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://i033via2vo6b" path="res://scenes/ui.tscn" id="3_qfnet"]
+[ext_resource type="AudioStream" uid="uid://ctfu1jwo634p2" path="res://audio/hit.wav" id="7_i7141"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_71j4m"]
+size = Vector2(288, 112)
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_71j4m")
+pipes = ExtResource("2_i7141")
+
+[node name="UI" parent="." instance=ExtResource("3_qfnet")]
+
+[node name="ParallaxBackground" type="Parallax2D" parent="."]
+repeat_size = Vector2(288, 0)
+autoscroll = Vector2(-30, 0)
+
+[node name="Background-day" type="Sprite2D" parent="ParallaxBackground"]
+position = Vector2(144, 256)
+texture = ExtResource("1_nnsk1")
+
+[node name="ParallaxBase" type="Parallax2D" parent="."]
+repeat_size = Vector2(288, 0)
+autoscroll = Vector2(-60, 0)
+
+[node name="Base" type="Sprite2D" parent="ParallaxBase"]
+position = Vector2(143.5, 456)
+scale = Vector2(0.860119, 1)
+texture = ExtResource("2_rwgxs")
+
+[node name="Bird" parent="." instance=ExtResource("3_4wyf3")]
+z_index = 1
+position = Vector2(89, 301)
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(144, 456)
+shape = SubResource("RectangleShape2D_71j4m")
+
+[node name="GameOverSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_i7141")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

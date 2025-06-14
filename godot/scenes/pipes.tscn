@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyxakwmrenw0d"]
+
+[ext_resource type="Script" uid="uid://dakv807ot2pkd" path="res://scripts/pipes.gd" id="1_3ahhd"]
+[ext_resource type="PackedScene" uid="uid://6lapsww304nl" path="res://scenes/pipe_base.tscn" id="1_f17p0"]
+[ext_resource type="AudioStream" uid="uid://ctfu1jwo634p2" path="res://audio/hit.wav" id="3_prsvi"]
+[ext_resource type="AudioStream" uid="uid://xfn2c53rkluk" path="res://audio/point.wav" id="4_v53nb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ahhd"]
+size = Vector2(31.8639, 128)
+
+[node name="Pipes" type="Node2D"]
+z_index = 1
+rotation = 0.0010633
+script = ExtResource("1_3ahhd")
+
+[node name="Pipe_top" parent="." instance=ExtResource("1_f17p0")]
+position = Vector2(24, -224)
+rotation = 3.14159
+
+[node name="Pipe_down" parent="." instance=ExtResource("1_f17p0")]
+position = Vector2(24, 224)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(64, -0.0680513)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(64, -0.0680512)
+shape = SubResource("RectangleShape2D_3ahhd")
+
+[node name="GameOverSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_prsvi")
+
+[node name="IncrementScore" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_v53nb")
+
+[connection signal="body_entered" from="Pipe_top" to="." method="_on_pipe_top_body_entered"]
+[connection signal="body_entered" from="Pipe_down" to="." method="_on_pipe_top_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
